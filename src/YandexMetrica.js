@@ -11,8 +11,8 @@ export class YandexMetrica {
    * @param {string} message
    * @param {object} [params=null]
    */
-  static reportEvent(message: string, params: ?Object = null) {
-    YandexMetricaBridgeNative.reportEvent(message, params);
+  static reportEvent(message: string) {
+    YandexMetricaBridgeNative.reportEvent(message);
   }
 
 
