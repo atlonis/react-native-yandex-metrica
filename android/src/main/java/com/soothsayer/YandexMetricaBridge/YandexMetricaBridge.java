@@ -57,17 +57,13 @@ public class YandexMetricaBridge extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void reportEvent(String message, @Nullable ReadableMap params) {
+  public void reportEvent(String message) {
 	if (dryRun) {
       Log.i(TAG, "Dry run mode, skip event reporting");
       return;
     }
 	try {
-		  if (params != null) {
-            YandexMetrica.reportEvent(message, convertReadableMapToJson(params));
-        } else {
           YandexMetrica.reportEvent(message);
-        }
 	} catch (Exception e) {
       Log.e(TAG, "Unable to report Yandex Mobile Metrica event: " + e);
     }
