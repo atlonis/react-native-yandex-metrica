@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.Promise;
 
 import com.yandex.metrica.YandexMetrica;
+import com.yandex.metrica.YandexMetricaConfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class YandexMetricaBridge extends ReactContextBaseJavaModule {
     return TAG;
   }
 
-  @ReactMethod
+   @ReactMethod
   public void activateWithApiKey(String apiKey) {
     initialized = true;
     if (dryRun) {
@@ -53,7 +54,11 @@ public class YandexMetricaBridge extends ReactContextBaseJavaModule {
       return;
     }
 
-    YandexMetrica.activate(getReactApplicationContext(), apiKey);
+    YandexMetricaConfig.Builder configBuilder = YandexMetricaConfig.newConfigBuilder(apiKey);
+    YandexMetricaConfig extendedConfig = configBuilder.build();
+
+    
+    YandexMetrica.activate(getReactApplicationContext(), extendedConfig);
   }
 
   @ReactMethod
@@ -128,11 +133,16 @@ public class YandexMetricaBridge extends ReactContextBaseJavaModule {
   }
 
   public static void activate(Context context, String apiKey) {
-    YandexMetrica.activate(context, apiKey);
+    YandexMetricaConfig.Builder configBuilder = YandexMetricaConfig.newConfigBuilder(apiKey);
+    YandexMetricaConfig extendedConfig = configBuilder.build();
+
+    YandexMetrica.activate(context, extendedConfig);
     initializedStatic = true;
   }
 
   public static void enableActivityAutoTracking(final Application app) {
+  
     YandexMetrica.enableActivityAutoTracking(app);
   }
 }
+   
